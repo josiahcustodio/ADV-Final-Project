@@ -2,9 +2,11 @@ import sqlite3
 import time
 
 def get_connection():
+    """Returns a new connection to the SQLite database."""
     return sqlite3.connect('skillmatch.db')
 
 def connect_db():
+    """Returns a new connection to the SQLite database (same as get_connection)."""
     return sqlite3.connect('skillmatch.db')
 
 def get_profiles_by_skill_tag(skill_tag):
@@ -12,8 +14,8 @@ def get_profiles_by_skill_tag(skill_tag):
     connection = get_connection()
     cursor = connection.cursor()
     # Query to find users who match the skill tag (specialty)
-    cursor.execute('''
-        SELECT * FROM users WHERE specialty = ?
+    cursor.execute(''' 
+        SELECT * FROM users WHERE specialty = ? 
     ''', (skill_tag,))
     profiles = cursor.fetchall()
     connection.close()
@@ -34,12 +36,13 @@ def get_profiles_by_skill_tag(skill_tag):
         })
     return profiles_dict
 
-
 def create_tables():
+    """Creates necessary tables in the database if they don't already exist."""
     connection = get_connection()
     cursor = connection.cursor()
     
-    cursor.execute('''
+    # Create the 'users' table if it doesn't already exist
+    cursor.execute(''' 
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             first_name TEXT NOT NULL,
@@ -53,15 +56,13 @@ def create_tables():
         )
     ''')
 
-
-
 def get_all_transactions():
     """Fetches all transaction records from the database, including user details."""
     connection = get_connection()
     cursor = connection.cursor()
-    cursor.execute('''
-        SELECT st.transaction_id, st.user_id, st.traded_skill, st.transaction_date, u.first_name, u.last_name
-        FROM skills_transactions st
+    cursor.execute(''' 
+        SELECT st.transaction_id, st.user_id, st.traded_skill, st.transaction_date, u.first_name, u.last_name 
+        FROM skills_transactions st 
         JOIN users u ON st.user_id = u.id
     ''')
     transactions = cursor.fetchall()
@@ -69,6 +70,7 @@ def get_all_transactions():
     return transactions
 
 def register_user(first_name, last_name, specialty, skill, skill_level, username, password):
+    """Registers a new user in the database."""
     conn = sqlite3.connect('skillmatch.db')
     cursor = conn.cursor()
     
@@ -100,10 +102,11 @@ def delete_all_users():
         conn.close()
 
 def authenticate_user(username, password):
+    """Authenticates a user by checking their username and password."""
     conn = sqlite3.connect('skillmatch.db')
     cursor = conn.cursor()
-    cursor.execute('''
-        SELECT * FROM users WHERE username = ? AND password = ?
+    cursor.execute(''' 
+        SELECT * FROM users WHERE username = ? AND password = ? 
     ''', (username, password))
     user = cursor.fetchone()
     conn.close()
@@ -123,7 +126,7 @@ def authenticate_user(username, password):
     return None
 
 def get_all_users():
-    # Connect to the SQLite database
+    """Fetches all users from the database."""
     connection = sqlite3.connect('skillmatch.db')
     cursor = connection.cursor()
     
@@ -135,16 +138,15 @@ def get_all_users():
     connection.close()
     return all_users
 
-logged_in_user = None
-
 logged_in_user = None  # Global variable to store logged-in user info
 
 def delete_user(user_id):
+    """Deletes a user by their ID from the database."""
     conn = get_connection()
     cursor = conn.cursor()
     
     try:
-        # Delete by user_id instead of first_name to ensure uniqueness
+        # Delete by user_id to ensure uniqueness
         cursor.execute('''DELETE FROM users WHERE id = ?''', (user_id,))
         conn.commit()
         
@@ -166,16 +168,15 @@ def delete_user(user_id):
     finally:
         conn.close()
 
-
-
-
 def get_users_by_criterion(self, criterion, value):
+    """Fetches users based on a specific criterion (e.g., specialty, username)."""
     query = f"SELECT * FROM users WHERE {criterion} = ?"
     params = (value,)
     self.cursor.execute(query, params)
     return self.cursor.fetchall()
 
 def update_credits(user_id, credits):
+    """Updates the user's credits in the database."""
     connection = get_connection()
     cursor = connection.cursor()
     try:
@@ -192,6 +193,3 @@ def update_credits(user_id, credits):
         print(f"Error updating credits: {e}")
     finally:
         connection.close()
-
-
-
