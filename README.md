@@ -41,7 +41,7 @@ Clone the Repository:
 
 bash
 Copy code
-git clone https://github.com/yourusername/SkillMatchApp.git
+https://github.com/josiahcustodio/ADV-Final-Project
 cd SkillMatchApp
 Set up the Database: The system uses a SQLite database. Ensure that skillmatchDB.py handles the creation of tables and any necessary database setup.
 
