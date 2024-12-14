@@ -4,7 +4,7 @@ username: josh
 password: 123
 
 # ADV-Final-Project
-CS121 Final Projecy
+CS121 Final ProjecT
 
 Table of Contents
 Introduction
