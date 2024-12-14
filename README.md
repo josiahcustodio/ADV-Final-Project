@@ -1,5 +1,10 @@
+
+IF THE CODE HAS BUGS ON FUNCTIONS AFTER REGISTERING USE THIS LOGIN INFO
+username: josh
+password: 123
+
 # ADV-Final-Project
-CS121 Final Project
+CS121 Final Projecy
 
 Table of Contents
 Introduction
